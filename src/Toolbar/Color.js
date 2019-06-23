@@ -11,6 +11,7 @@ const COLORS = {
 const Color = ({ color, onColorChanged }) => {
     return (
         <div>
+            <h4>Color</h4>
             <label>
                 <input
                     type={'radio'}

@@ -5,6 +5,7 @@ import Toolbar from './Toolbar';
 
 const DEFAULT_SETTINGS = {
   color: 'red',
+  size: 5,
 };
 
 const App = () => {
@@ -13,7 +14,7 @@ const App = () => {
     <div className={'App'}>
       <h1>R6S Palette tactique</h1>
       <Toolbar settings={settings} onSettingsChanged={setSettings} />
-      <DrawingBoard map={MAPS.PRESIDENTIAL_AIRPLANE[1]} color={settings.color} />
+      <DrawingBoard map={MAPS.PRESIDENTIAL_AIRPLANE[1]} settings={settings} />
     </div>
   );
 };
