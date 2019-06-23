@@ -3,7 +3,6 @@ import MAPS from './maps';
 
 const MapSelector = ({ map, onMapChange, floor, onFloorChange }) => {
     const onMapChangeHandler = (mapName) => {
-        console.log(mapName);
         const selectedMap = MAPS.find((map) => map.name === mapName);
         onMapChange(selectedMap);
     };
@@ -26,6 +25,7 @@ const MapSelector = ({ map, onMapChange, floor, onFloorChange }) => {
 
     return (
         <div>
+            <h4>Map</h4>
             <select value={map.name} onChange={(event) => onMapChangeHandler(event.target.value)}>
                 {mapList}
             </select>

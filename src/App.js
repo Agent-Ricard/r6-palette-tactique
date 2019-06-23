@@ -14,12 +14,11 @@ const App = () => {
   const [floor, setFloor] = useState(map.floors[0]);
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
 
-  console.log(map, floor);
-
   const onMapChangeHandler = (map) => {
     setMap(map);
     setFloor(map.floors[0]);
-  }
+  };
+
   return (
     <div className={'App'}>
       <h1>R6S Palette tactique</h1>
