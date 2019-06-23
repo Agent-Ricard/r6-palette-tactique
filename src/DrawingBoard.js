@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './DrawingBoard.css';
 
-const DrawingBoard = ({ map, settings }) => {
+const DrawingBoard = ({ floor, settings }) => {
     const [isDrawing, setIsDrawing] = useState(false);
     const [isErasing, setIsErasing] = useState(false);
     const canvasEl = useRef(null);
@@ -10,13 +10,16 @@ const DrawingBoard = ({ map, settings }) => {
     useEffect(() => {
         const ctx = canvasEl.current.getContext('2d');
         const img = new Image();
-        img.src = map;
+        if (!floor) {
+            return;
+        }
+        img.src = floor.src;
         img.onload = () => { 
             canvasEl.current.width = img.width;
             canvasEl.current.height = img.height;
             ctx.drawImage(img, 0, 0);
         };
-    }, [map]);
+    }, [floor]);
 
     // draw with the mouse
     const onMouseMoveHandler = (event) => {
