@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DrawingBoard from './DrawingBoard';
 import MAPS from './maps';
 import Toolbar from './Toolbar';
@@ -9,10 +9,17 @@ const DEFAULT_SETTINGS = {
   size: 5,
 };
 
+const generateId = () => Math.floor(Math.random() * Math.floor(1000000));
+
 const App = () => {
+  const [userId, setUserId] = useState(-1);
   const [map, setMap] = useState(MAPS[0]);
   const [floor, setFloor] = useState(map.floors[0]);
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
+
+  useEffect(() => {
+    setUserId(generateId());
+  }, []);
 
   const onMapChangeHandler = (map) => {
     setMap(map);
@@ -29,7 +36,7 @@ const App = () => {
         floor={floor}
         onFloorChange={setFloor}
       />
-      <DrawingBoard floor={floor} settings={settings} />
+      <DrawingBoard userId={userId} floor={floor} settings={settings} />
     </div>
   );
 };
