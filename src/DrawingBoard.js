@@ -1,30 +1,43 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import './DrawingBoard.css';
 
-const DrawingBoard = ({ map, color = 'red' }) => {
+const DrawingBoard = ({ map, color }) => {
     const [isDrawing, setIsDrawing] = useState(false);
     const canvasEl = useRef(null);
+
+    // load the right image
+    useEffect(() => {
+        const ctx = canvasEl.current.getContext('2d');
+        const img = new Image();
+        img.src = map;
+        img.onload = () => { 
+            canvasEl.current.width = img.width;
+            canvasEl.current.height = img.height;
+            ctx.drawImage(img, 0, 0);
+        };
+    }, [map]);
+
+    // draw with the mouse
     const onMouseMoveHandler = (event) => {
-      if (!isDrawing) {
+      console.log(event.button);
+    if (!isDrawing) {
         return;
       }
       const ctx = canvasEl.current.getContext('2d');
+
+      const rect = canvasEl.current.getBoundingClientRect();
+      const offsetX = rect.left;
+      const offsetY = rect.top;
       ctx.fillStyle = color;
-      ctx.fillRect(event.clientX, event.clientY, 5, 5);
+      console.log(color)
+      ctx.fillRect(event.clientX - offsetX, event.clientY - offsetY, 5, 5);
     };
     return (
-        <div className={'palette-container'}>
-            <img
-                src={map}
-                alt={'test'}
-                width={1920}
-                height={1080}
-            />
+        <div className={'wrapper'}>
             <canvas
-                width={1920}
-                height={1080}
                 ref={canvasEl}
                 onMouseMove={onMouseMoveHandler}
-                onMouseDown={() => setIsDrawing(true)}
+                onMouseDown={(event) => setIsDrawing(event.button ===  0)}
                 onMouseUp={() => setIsDrawing(false)}
             />
         </div>
