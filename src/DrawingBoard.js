@@ -19,7 +19,6 @@ const DrawingBoard = ({ map, color }) => {
 
     // draw with the mouse
     const onMouseMoveHandler = (event) => {
-      console.log(event.button);
     if (!isDrawing) {
         return;
       }
@@ -29,7 +28,6 @@ const DrawingBoard = ({ map, color }) => {
       const offsetX = rect.left;
       const offsetY = rect.top;
       ctx.fillStyle = color;
-      console.log(color)
       ctx.fillRect(event.clientX - offsetX, event.clientY - offsetY, 5, 5);
     };
     return (
