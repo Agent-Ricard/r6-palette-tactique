@@ -1,13 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import io from 'socket.io-client';
-import './DrawingBoard.css';
+import styled from '@emotion/styled';
+
+import useWindowSize from './utils/useWindowSize';
 
 const socket = io('http://localhost:8000');
+
+const Img = styled.img({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    backgroundSize: 'cover',
+});
+const Canvas = styled.canvas({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+});
 
 const DrawingBoard = ({ userId, floor, settings }) => {
     const [isDrawing, setIsDrawing] = useState(false);
     const [isErasing, setIsErasing] = useState(false);
     const canvasEl = useRef(null);
+    const windowSize = useWindowSize();
 
     socket.on('draw', (data) => {
         if (data.userId === userId) {
@@ -21,21 +36,6 @@ const DrawingBoard = ({ userId, floor, settings }) => {
         }
         erase(data);
     });
-
-    // load the right image
-    useEffect(() => {
-        const ctx = canvasEl.current.getContext('2d');
-        const img = new Image();
-        if (!floor) {
-            return;
-        }
-        img.src = floor.src;
-        img.onload = () => { 
-            canvasEl.current.width = img.width;
-            canvasEl.current.height = img.height;
-            ctx.drawImage(img, 0, 0);
-        };
-    }, [floor]);
 
     // draw with the mouse
     const onMouseMoveHandler = (event) => {
@@ -83,8 +83,11 @@ const DrawingBoard = ({ userId, floor, settings }) => {
     };
 
     return (
-        <div className={'wrapper'}>
-            <canvas
+        <div>
+            <Img src={floor.src} alt={floor} />
+            <Canvas
+                width={windowSize.innerWidth}
+                height={windowSize.innerHeight}
                 ref={canvasEl}
                 onMouseMove={onMouseMoveHandler}
                 onMouseDown={onMouseDownHandler}

@@ -28,14 +28,16 @@ const App = () => {
 
   return (
     <div className={'App'}>
-      <h1>R6S Palette tactique</h1>
-      <Toolbar settings={settings} onSettingsChanged={setSettings} />
-      <MapSelector
-        map={map}
-        onMapChange={onMapChangeHandler}
-        floor={floor}
-        onFloorChange={setFloor}
-      />
+      <header>
+        <h1>R6S Palette tactique</h1>
+        <Toolbar settings={settings} onSettingsChanged={setSettings} />
+        <MapSelector
+          map={map}
+          onMapChange={onMapChangeHandler}
+          floor={floor}
+          onFloorChange={setFloor}
+        />
+      </header>
       <DrawingBoard userId={userId} floor={floor} settings={settings} />
     </div>
   );
