@@ -10,7 +10,7 @@ const Img = styled.img({
     position: 'absolute',
     top: 0,
     left: 0,
-    backgroundSize: 'cover',
+    width: '100%',
 });
 const Canvas = styled.canvas({
     position: 'absolute',
