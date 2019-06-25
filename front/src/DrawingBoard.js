@@ -10,7 +10,9 @@ const Img = styled.img({
     position: 'absolute',
     top: 0,
     left: 0,
-    width: '100%',
+    maxWidth: '100%',
+    maxHeight: '100%',
+    backgroundSize: 'cover',
 });
 const Canvas = styled.canvas({
     position: 'absolute',
@@ -18,6 +20,15 @@ const Canvas = styled.canvas({
     left: 0,
 });
 
+const fitDrawToCanvasSize = (data, rect) => {
+    const width = rect.right - rect.left;
+    const height = rect.bottom - rect.top;
+    const x = data.x * width / data.width;
+    const y = data.y * height / data.height;
+    const updatedData = { ...data, x, y };
+    console.log(width, height);
+    return updatedData;
+};
 const DrawingBoard = ({ userId, floor, settings }) => {
     const [isDrawing, setIsDrawing] = useState(false);
     const [isErasing, setIsErasing] = useState(false);
@@ -28,13 +39,17 @@ const DrawingBoard = ({ userId, floor, settings }) => {
         if (data.userId === userId) {
             return;
         }
-        draw(data);
+        const rect = canvasEl.current.getBoundingClientRect();
+        const updatedData = fitDrawToCanvasSize(data, rect);
+        draw(updatedData);
     });
     socket.on('erase', (data) => {
         if (data.userId === userId) {
             return;
         }
-        erase(data);
+        const rect = canvasEl.current.getBoundingClientRect();
+        const updatedData = fitDrawToCanvasSize(data, rect);
+        erase(updatedData);
     });
 
     // draw with the mouse
@@ -51,6 +66,8 @@ const DrawingBoard = ({ userId, floor, settings }) => {
             size: settings.size,
             color: settings.color,
             userId,
+            width: rect.right - rect.left,
+            height: rect.bottom - rect.top,
         };
 
         if (isDrawing) {

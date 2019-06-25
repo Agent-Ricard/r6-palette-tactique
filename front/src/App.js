@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styled from '@emotion/styled';
 import DrawingBoard from './DrawingBoard';
 import MAPS from './maps';
 import Toolbar from './Toolbar';
@@ -8,6 +9,14 @@ const DEFAULT_SETTINGS = {
   color: 'red',
   size: 5,
 };
+
+const Header = styled.header({
+  position: 'absolute',
+  zIndex: 100,
+  backgroundColor: 'white',
+  top: 0,
+  left: 0,
+});
 
 const generateId = () => Math.floor(Math.random() * Math.floor(1000000));
 
@@ -28,7 +37,7 @@ const App = () => {
 
   return (
     <div className={'App'}>
-      <header>
+      <Header>
         <h1>R6S Palette tactique</h1>
         <Toolbar settings={settings} onSettingsChanged={setSettings} />
         <MapSelector
@@ -37,7 +46,7 @@ const App = () => {
           floor={floor}
           onFloorChange={setFloor}
         />
-      </header>
+      </Header>
       <DrawingBoard userId={userId} floor={floor} settings={settings} />
     </div>
   );
